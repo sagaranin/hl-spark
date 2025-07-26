@@ -1,0 +1,65 @@
+# Логи
+*.log
+logs/
+
+# Данные
+data/*
+!data/.gitkeep
+
+# Временные файлы Spark
+spark-warehouse/
+metastore_db/
+derby.log
+
+# Docker volumes
+.docker/
+
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS файлы
+.DS_Store
+Thumbs.db
+
+# Переменные окружения (если содержат секреты)
+.env.local
+.env.production
+
+# Backup файлы
+*.bak
+*.backup
+
+# Compiled files
+*.class
+*.jar
+target/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Scala
+*.class
+*.log
+target/
+project/target/
+project/project/
+
+# Временные файлы приложений
+*.tmp
+*.temp
