@@ -1,11 +1,10 @@
 version: '3.8'
 
 services:
-  spark-master:
+  master:
     # https://hub.docker.com/r/bitnami/spark/
     image: bitnami/spark:3.5
-    container_name: spark-master
-    hostname: spark-master
+    hostname: master
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -14,23 +13,19 @@ services:
       - SPARK_SSL_ENABLED=no
       - SPARK_USER=spark
     ports:
-      - "8080:8080"  # Spark Master Web UI
-      - "7077:7077"  # Spark Master Port
-      - "4040:4040"  # Spark Application Web UI
-    volumes:
-      - ./data:/opt/bitnami/spark/data
-      - ./apps:/opt/bitnami/spark/apps
+      - "18080:8080"  # Spark Master Web UI
+      - "17077:7077"  # Spark Master Port
+      - "14040:4040"  # Spark Application Web UI
     networks:
       - spark-network
 
-  spark-worker-1:
+  worker-1:
     # https://hub.docker.com/r/bitnami/spark/
     image: bitnami/spark:3.5
-    container_name: spark-worker-1
-    hostname: spark-worker-1
+    hostname: worker-1
     environment:
       - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_MASTER_URL=spark://master:7077
       - SPARK_WORKER_MEMORY=16g
       - SPARK_WORKER_CORES=16
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -39,23 +34,19 @@ services:
       - SPARK_SSL_ENABLED=no
       - SPARK_USER=spark
     ports:
-      - "8081:8081"  # Spark Worker Web UI
-    volumes:
-      - ./data:/opt/bitnami/spark/data
-      - ./apps:/opt/bitnami/spark/apps
+      - "18081:8081"  # Spark Worker Web UI
     depends_on:
-      - spark-master
+      - master
     networks:
       - spark-network
 
-  spark-worker-2:
+  worker-2:
     # https://hub.docker.com/r/bitnami/spark/
     image: bitnami/spark:3.5
-    container_name: spark-worker-2
-    hostname: spark-worker-2
+    hostname: worker-2
     environment:
       - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_MASTER_URL=spark://master:7077
       - SPARK_WORKER_MEMORY=16g
       - SPARK_WORKER_CORES=16
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -64,19 +55,12 @@ services:
       - SPARK_SSL_ENABLED=no
       - SPARK_USER=spark
     ports:
-      - "8082:8081"  # Spark Worker Web UI
-    volumes:
-      - ./data:/opt/bitnami/spark/data
-      - ./apps:/opt/bitnami/spark/apps
+      - "18082:8081"  # Spark Worker Web UI
     depends_on:
-      - spark-master
+      - master
     networks:
       - spark-network
 
 networks:
   spark-network:
     driver: bridge
-
-volumes:
-  spark-data:
-  spark-apps:
